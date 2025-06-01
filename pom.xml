@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.gestioncitas</groupId>
+  <artifactId>GestionCitas</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <properties>
+    <!-- Asegúrate de usar la misma versión de Java que tienes instalada -->
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <javafx.version>20.0.2</javafx.version> <!-- Ejemplo, revisa la versión que descargaste -->
+  </properties>
+  <dependencies>
+    <!-- Dependencias JavaFX -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>${javafx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-fxml</artifactId>
+      <version>${javafx.version}</version>
+    </dependency>
+    <!-- Agrega javafx-base, javafx-graphics si usas módulos extra -->
+  </dependencies>
+  <build>
+    <plugins>
+      <!-- Plugin para ejecutar con JavaFX -->
+      <plugin>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>${javafx.version}</version>
+        <configuration>
+          <mainClass>com.gestioncitas.Main</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

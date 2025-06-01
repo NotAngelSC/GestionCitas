@@ -1,1 +1,17 @@
-<!-- TODO: Define login interface -->
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.gestioncitas.controllers.LoginController"
+            prefWidth="400" prefHeight="250">
+    <children>
+        <VBox alignment="CENTER" spacing="10" layoutX="50" layoutY="40" prefWidth="300" prefHeight="170">
+            <Label text="Iniciar Sesión" style="-fx-font-size: 18px;"/>
+            <TextField fx:id="txtUsuario" promptText="Usuario" maxWidth="200"/>
+            <PasswordField fx:id="txtContrasena" promptText="Contraseña" maxWidth="200"/>
+            <Button text="Entrar" onAction="#onEntrar" maxWidth="120"/>
+            <Label fx:id="lblError" textFill="red" visible="false"/>
+        </VBox>
+    </children>
+</AnchorPane>
