@@ -1,1 +1,37 @@
-<!-- TODO: Define dashboard interface -->
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:id="rootPane"
+            fx:controller="com.gestioncitas.controllers.DashboardController"
+            prefWidth="600" prefHeight="400">
+
+    <!-- Encabezado con título y botón de cerrar sesión -->
+    <top>
+        <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 10px;">
+            <Label text="GestionCitas - Dashboard"
+                   style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Cerrar Sesión" onAction="#onCerrarSesion"/>
+        </HBox>
+    </top>
+
+    <!-- Menú lateral con opciones -->
+    <left>
+        <VBox spacing="10" style="-fx-padding: 10px;">
+            <Button text="Gestión de Clientes" onAction="#onClientes" prefWidth="150"/>
+            <Button text="Gestión de Citas"   onAction="#onCitas"    prefWidth="150"/>
+            <Button text="Configuración"      onAction="#onConfiguracion" prefWidth="150"/>
+        </VBox>
+    </left>
+
+    <!-- Contenido central, por defecto vacío o con mensaje de bienvenida -->
+    <center>
+        <StackPane fx:id="paneContenido" style="-fx-padding: 20px;">
+            <Label text="Selecciona una opción del menú."/>
+        </StackPane>
+    </center>
+
+</BorderPane>

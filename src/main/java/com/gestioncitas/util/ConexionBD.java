@@ -8,14 +8,14 @@ public class ConexionBD {
     private static ConexionBD instancia;
     private Connection conexion;
 
-    // Cambia estos valores según tu servidor y credenciales
-    private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=GestionCitas;encrypt=true;trustServerCertificate=true";
+    // Cambia estos parámetros según tu servidor SQL Server
+    private static final String URL = 
+        "jdbc:sqlserver://localhost:1433;databaseName=GestionCitas;encrypt=true;trustServerCertificate=true";
     private static final String USER = "gestion_user";
     private static final String PASS = "1234";
 
     private ConexionBD() throws SQLException {
-        // Carga del driver (en la mayoría de casos ya no es necesario explícitamente)
-        // Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        // En JDBC 4+ no hace falta cargar el driver con Class.forName(...);
         this.conexion = DriverManager.getConnection(URL, USER, PASS);
     }
 

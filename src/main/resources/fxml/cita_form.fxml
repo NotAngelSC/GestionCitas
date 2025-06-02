@@ -1,1 +1,36 @@
-<!-- TODO: Define cita form -->
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.gestioncitas.controllers.CitaController"
+            prefWidth="700" prefHeight="450">
+
+    <!-- Encabezado con título y botones de acción -->
+    <top>
+        <HBox spacing="10" padding="10">
+            <Label text="Citas" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Nueva Cita" onAction="#onNuevaCita" />
+            <Button text="Editar Cita" onAction="#onEditarCita" />
+            <Button text="Eliminar Cita" onAction="#onEliminarCita" />
+        </HBox>
+    </top>
+
+    <!-- Tabla que muestra las citas actuales -->
+    <center>
+        <TableView fx:id="tableCitas">
+            <columns>
+                <TableColumn fx:id="colCliente" text="Cliente" prefWidth="150" />
+                <TableColumn fx:id="colServicio" text="Servicio" prefWidth="150" />
+                <TableColumn fx:id="colFecha" text="Fecha" prefWidth="100" />
+                <TableColumn fx:id="colHoraInicio" text="Hora Inicio" prefWidth="80" />
+                <TableColumn fx:id="colHoraFin" text="Hora Fin" prefWidth="80" />
+                <TableColumn fx:id="colNotas" text="Notas" prefWidth="180" />
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>
+
