@@ -2,16 +2,18 @@ package com.gestioncitas.controllers;
 
 import com.gestioncitas.observer.ColorChangeListener;
 import com.gestioncitas.util.ConfiguracionVisual;
+import com.gestioncitas.models.Usuario;
+import com.gestioncitas.util.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.Parent;
 
 public class DashboardController {
 
@@ -20,6 +22,24 @@ public class DashboardController {
 
     @FXML
     private StackPane paneContenido;   // Panel donde se cargan las vistas hijas
+
+    @FXML
+    private Button btnClientes;
+
+    @FXML
+    private Button btnCitas;
+
+    @FXML
+    private Button btnServicios;
+
+    @FXML
+    private Button btnUsuarios;
+
+    @FXML
+    private Button btnConfiguracion;
+
+    @FXML
+    private Button btnCerrarSesion;
 
     private final ConfiguracionVisual cfg = ConfiguracionVisual.getInstancia();
 
@@ -31,11 +51,42 @@ public class DashboardController {
 
         // 2. Suscribirse a cambios de color de fondo para actualizar en tiempo real
         cfg.colorFondoProperty().addListener(new ColorChangeListener(rootPane));
+
+        // 3. Habilitar/Deshabilitar botones según rol del usuario
+        Usuario usuarioActual = Session.getUsuario();
+        if (usuarioActual != null) {
+            String rol = usuarioActual.getRol();
+            boolean esAdmin = "administrador".equalsIgnoreCase(rol);
+            boolean esGerente = "gerente".equalsIgnoreCase(rol);
+
+            // Clientes y Citas: todos los roles pueden acceder
+            btnClientes.setDisable(false);
+            btnCitas.setDisable(false);
+
+            // Servicios: solo admin y gerente
+            btnServicios.setDisable(!(esAdmin || esGerente));
+
+            // Usuarios: solo admin
+            btnUsuarios.setDisable(!esAdmin);
+
+            // Configuración: todos los roles pueden acceder
+            btnConfiguracion.setDisable(false);
+        } else {
+            // Si por algún motivo no hay usuario en sesión, deshabilitar todo
+            btnClientes.setDisable(true);
+            btnCitas.setDisable(true);
+            btnServicios.setDisable(true);
+            btnUsuarios.setDisable(true);
+            btnConfiguracion.setDisable(true);
+        }
     }
 
     @FXML
     private void onCerrarSesion() {
         try {
+            // Limpiar sesión antes de volver al login
+            Session.setUsuario(null);
+
             Stage stage = (Stage) paneContenido.getScene().getWindow();
             Parent loginRoot = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
             stage.setTitle("GestionCitas - Login");
@@ -43,6 +94,7 @@ public class DashboardController {
             stage.centerOnScreen();
         } catch (Exception e) {
             e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Error al cerrar sesión.").showAndWait();
         }
     }
 
@@ -57,11 +109,21 @@ public class DashboardController {
     }
 
     @FXML
+    private void onServicios() {
+        cargarVistaEnContenido("/fxml/servicio_form.fxml");
+    }
+
+    @FXML
+    private void onUsuarios() {
+        cargarVistaEnContenido("/fxml/usuario_form.fxml");
+    }
+
+    @FXML
     private void onConfiguracion() {
         cargarVistaEnContenido("/fxml/configuracion_visual.fxml");
     }
 
-private void cargarVistaEnContenido(String rutaFxml) {
+    private void cargarVistaEnContenido(String rutaFxml) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaFxml));
             Parent vista = loader.load();
@@ -73,3 +135,4 @@ private void cargarVistaEnContenido(String rutaFxml) {
         }
     }
 }
+

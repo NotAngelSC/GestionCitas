@@ -14,16 +14,18 @@
             <Label text="GestionCitas - Dashboard"
                    style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Cerrar Sesión" onAction="#onCerrarSesion"/>
+            <Button fx:id="btnCerrarSesion" text="Cerrar Sesión" onAction="#onCerrarSesion"/>
         </HBox>
     </top>
 
     <!-- Menú lateral con opciones -->
     <left>
         <VBox spacing="10" style="-fx-padding: 10px;">
-            <Button text="Gestión de Clientes" onAction="#onClientes" prefWidth="150"/>
-            <Button text="Gestión de Citas"   onAction="#onCitas"    prefWidth="150"/>
-            <Button text="Configuración"      onAction="#onConfiguracion" prefWidth="150"/>
+            <Button fx:id="btnClientes"      text="Gestión de Clientes"   onAction="#onClientes"       prefWidth="150"/>
+            <Button fx:id="btnCitas"         text="Gestión de Citas"      onAction="#onCitas"          prefWidth="150"/>
+            <Button fx:id="btnServicios"     text="Gestión de Servicios"  onAction="#onServicios"      prefWidth="150"/>
+            <Button fx:id="btnUsuarios"      text="Gestión de Usuarios"   onAction="#onUsuarios"       prefWidth="150"/>
+            <Button fx:id="btnConfiguracion" text="Configuración"         onAction="#onConfiguracion"  prefWidth="150"/>
         </VBox>
     </left>
 

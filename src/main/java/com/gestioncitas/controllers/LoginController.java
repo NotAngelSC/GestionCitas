@@ -3,15 +3,16 @@ package com.gestioncitas.controllers;
 import com.gestioncitas.dao.UsuarioDAO;
 import com.gestioncitas.models.Usuario;
 import com.gestioncitas.util.HashUtils;
+import com.gestioncitas.util.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 
 public class LoginController {
 
@@ -19,25 +20,33 @@ public class LoginController {
     @FXML private PasswordField txtContrasena;
     @FXML private Label lblError;
 
-    private UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private final UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+    @FXML
+    private void initialize() {
+        // Al iniciar, ocultar el mensaje de error
+        lblError.setVisible(false);
+    }
 
     @FXML
     private void onEntrar(ActionEvent event) {
         try {
-            String usuario = txtUsuario.getText().trim();
-            String pass = txtContrasena.getText().trim();
-            if (usuario.isEmpty() || pass.isEmpty()) {
+            String usuarioText = txtUsuario.getText().trim();
+            String passText    = txtContrasena.getText().trim();
+
+            if (usuarioText.isEmpty() || passText.isEmpty()) {
                 lblError.setText("Debes ingresar usuario y contraseña.");
                 lblError.setVisible(true);
                 return;
             }
 
-            // Generar SHA-1
-            String sha1 = HashUtils.sha1(pass);
+            String sha1 = HashUtils.sha1(passText);
+            Usuario u   = usuarioDAO.autenticar(usuarioText, sha1);
 
-            Usuario u = usuarioDAO.autenticar(usuario, sha1);
             if (u != null) {
-                // Login exitoso: cargar el Dashboard (dashboard.fxml)
+                // Guardar en sesión antes de cargar el Dashboard
+                Session.setUsuario(u);
+
                 Stage stage = (Stage) txtUsuario.getScene().getWindow();
                 Parent root = FXMLLoader.load(getClass().getResource("/fxml/dashboard.fxml"));
 
