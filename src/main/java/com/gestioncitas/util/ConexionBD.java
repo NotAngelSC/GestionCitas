@@ -5,28 +5,40 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConexionBD {
-    private static ConexionBD instancia;
-    private Connection conexion;
-
-    // Cambia estos parámetros según tu servidor SQL Server
-    private static final String URL = 
+    // Parámetros de conexión (ajústalos según tu entorno)
+    private static final String URL =
         "jdbc:sqlserver://localhost:1433;databaseName=GestionCitas;encrypt=true;trustServerCertificate=true";
     private static final String USER = "gestion_user";
     private static final String PASS = "1234";
 
-    private ConexionBD() throws SQLException {
-        // En JDBC 4+ no hace falta cargar el driver con Class.forName(...);
-        this.conexion = DriverManager.getConnection(URL, USER, PASS);
+    // Singleton de la clase (no de la Connection)
+    private static ConexionBD instancia;
+
+    private ConexionBD() {
+        // Constructor privado para implementar singleton de la clase.
+        // NOTA: no abrimos ninguna Connection aquí.
     }
 
-    public static synchronized ConexionBD getInstancia() throws SQLException {
+    /**
+     * Retorna la instancia única de ConexionBD (para luego pedir conexiones nuevas).
+     */
+    public static synchronized ConexionBD getInstancia() {
         if (instancia == null) {
             instancia = new ConexionBD();
         }
         return instancia;
     }
 
-    public Connection getConexion() {
-        return conexion;
+    /**
+     * Abre y retorna una NUEVA conexión a la base de datos.
+     * Cada vez que se invoque este método, se creará una Connection distinta,
+     * que el DAO podrá cerrar sin afectar a otras.
+     *
+     * @return una nueva Connection activa a SQL Server.
+     * @throws SQLException si hay un error al crear la conexión.
+     */
+    public Connection getConexion() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASS);
     }
 }
+

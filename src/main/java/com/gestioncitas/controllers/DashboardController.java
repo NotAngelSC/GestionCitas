@@ -61,14 +61,15 @@ public class DashboardController {
         cargarVistaEnContenido("/fxml/configuracion_visual.fxml");
     }
 
-    private void cargarVistaEnContenido(String rutaFxml) {
+private void cargarVistaEnContenido(String rutaFxml) {
         try {
-            Node vista = FXMLLoader.load(getClass().getResource(rutaFxml));
-            paneContenido.getChildren().clear();
-            paneContenido.getChildren().add(vista);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaFxml));
+            Parent vista = loader.load();
+            paneContenido.getChildren().setAll(vista);
         } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "No se pudo cargar la vista: " + rutaFxml).showAndWait();
+            new Alert(Alert.AlertType.ERROR,
+                      "No se pudo cargar la vista: " + rutaFxml).showAndWait();
         }
     }
 }

@@ -16,6 +16,7 @@ public class CitaDAO implements GenericDAO<Cita> {
         String sql = "INSERT INTO citas "
                    + "(id_cliente, id_servicio, fecha, hora_inicio, hora_fin, notas, id_serie) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
         try (Connection conn = ConexionBD.getInstancia().getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -25,6 +26,7 @@ public class CitaDAO implements GenericDAO<Cita> {
             ps.setTime(4, Time.valueOf(cita.getHoraInicio()));
             ps.setTime(5, Time.valueOf(cita.getHoraFin()));
             ps.setString(6, cita.getNotas());
+
             if (cita.getIdSerie() != null) {
                 ps.setInt(7, cita.getIdSerie());
             } else {
@@ -37,18 +39,22 @@ public class CitaDAO implements GenericDAO<Cita> {
 
     @Override
     public void actualizar(Cita cita) throws Exception {
-        String sql = "UPDATE citas SET hora_fin = ?, notas = ?, id_serie = ?, version = version + 1 "
+        String sql = "UPDATE citas "
+                   + "SET hora_fin = ?, notas = ?, id_serie = ?, version = version + 1 "
                    + "WHERE id_cliente = ? AND id_servicio = ? AND fecha = ? AND hora_inicio = ?";
+
         try (Connection conn = ConexionBD.getInstancia().getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setTime(1, Time.valueOf(cita.getHoraFin()));
             ps.setString(2, cita.getNotas());
+
             if (cita.getIdSerie() != null) {
                 ps.setInt(3, cita.getIdSerie());
             } else {
                 ps.setNull(3, Types.INTEGER);
             }
+
             ps.setInt(4, cita.getIdCliente());
             ps.setInt(5, cita.getIdServicio());
             ps.setDate(6, Date.valueOf(cita.getFecha()));
@@ -62,6 +68,7 @@ public class CitaDAO implements GenericDAO<Cita> {
     public void eliminar(Cita cita) throws Exception {
         String sql = "DELETE FROM citas "
                    + "WHERE id_cliente = ? AND id_servicio = ? AND fecha = ? AND hora_inicio = ?";
+
         try (Connection conn = ConexionBD.getInstancia().getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -69,6 +76,7 @@ public class CitaDAO implements GenericDAO<Cita> {
             ps.setInt(2, cita.getIdServicio());
             ps.setDate(3, Date.valueOf(cita.getFecha()));
             ps.setTime(4, Time.valueOf(cita.getHoraInicio()));
+
             ps.executeUpdate();
         }
     }
@@ -76,8 +84,8 @@ public class CitaDAO implements GenericDAO<Cita> {
     @Override
     public Cita buscarPorId(Object... claves) throws Exception {
         String sql = "SELECT c.id_cliente, cli.nombre AS nombre_cliente, "
-                   + "c.id_servicio, ser.nombre AS nombre_servicio, "
-                   + "c.fecha, c.hora_inicio, c.hora_fin, c.notas, c.id_serie, c.version "
+                   + "       c.id_servicio, ser.nombre AS nombre_servicio, "
+                   + "       c.fecha, c.hora_inicio, c.hora_fin, c.notas, c.id_serie, c.version "
                    + "FROM citas c "
                    + "INNER JOIN clientes cli ON c.id_cliente = cli.id_cliente "
                    + "INNER JOIN servicios ser ON c.id_servicio = ser.id_servicio "
@@ -85,7 +93,9 @@ public class CitaDAO implements GenericDAO<Cita> {
                    + "  AND c.id_servicio = ? "
                    + "  AND c.fecha = ? "
                    + "  AND c.hora_inicio = ?";
+
         Cita cita = null;
+
         try (Connection conn = ConexionBD.getInstancia().getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -111,15 +121,17 @@ public class CitaDAO implements GenericDAO<Cita> {
                 }
             }
         }
+
         return cita;
     }
 
     @Override
     public List<Cita> listarTodos() throws Exception {
         List<Cita> lista = new ArrayList<>();
+
         String sql = "SELECT c.id_cliente, cli.nombre AS nombre_cliente, "
-                   + "c.id_servicio, ser.nombre AS nombre_servicio, "
-                   + "c.fecha, c.hora_inicio, c.hora_fin, c.notas, c.id_serie, c.version "
+                   + "       c.id_servicio, ser.nombre AS nombre_servicio, "
+                   + "       c.fecha, c.hora_inicio, c.hora_fin, c.notas, c.id_serie, c.version "
                    + "FROM citas c "
                    + "INNER JOIN clientes cli ON c.id_cliente = cli.id_cliente "
                    + "INNER JOIN servicios ser ON c.id_servicio = ser.id_servicio "
@@ -145,17 +157,20 @@ public class CitaDAO implements GenericDAO<Cita> {
                 lista.add(cita);
             }
         }
+
         return lista;
     }
 
-    /**  
-     * Método adicional para eliminar todas las citas de una serie.  
-     * Útil si deseas “eliminar toda la serie” en lugar de cita individual.  
+    /**
+     * Método adicional para eliminar todas las citas de una serie.
+     * Útil si deseas borrar todas las filas cuyo id_serie coincida.
      */
     public void eliminarPorSerie(int idSerie) throws Exception {
         String sql = "DELETE FROM citas WHERE id_serie = ?";
+
         try (Connection conn = ConexionBD.getInstancia().getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setInt(1, idSerie);
             ps.executeUpdate();
         }

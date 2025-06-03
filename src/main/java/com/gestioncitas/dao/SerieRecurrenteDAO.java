@@ -4,7 +4,6 @@ import com.gestioncitas.models.SerieRecurrente;
 import com.gestioncitas.util.ConexionBD;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +14,7 @@ public class SerieRecurrenteDAO implements GenericDAO<SerieRecurrente> {
         String sql = "INSERT INTO series_recurrentes "
                    + "(tipo_recurrencia, fecha_inicio, fecha_fin, repeticiones) "
                    + "VALUES (?, ?, ?, ?)";
+
         try (Connection conn = ConexionBD.getInstancia().getConexion();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -51,6 +51,7 @@ public class SerieRecurrenteDAO implements GenericDAO<SerieRecurrente> {
         String sql = "UPDATE series_recurrentes "
                    + "SET tipo_recurrencia = ?, fecha_inicio = ?, fecha_fin = ?, repeticiones = ? "
                    + "WHERE id_serie = ?";
+
         try (Connection conn = ConexionBD.getInstancia().getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -77,6 +78,7 @@ public class SerieRecurrenteDAO implements GenericDAO<SerieRecurrente> {
     @Override
     public void eliminar(SerieRecurrente entidad) throws Exception {
         String sql = "DELETE FROM series_recurrentes WHERE id_serie = ?";
+
         try (Connection conn = ConexionBD.getInstancia().getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -89,11 +91,14 @@ public class SerieRecurrenteDAO implements GenericDAO<SerieRecurrente> {
     public SerieRecurrente buscarPorId(Object... claves) throws Exception {
         String sql = "SELECT id_serie, tipo_recurrencia, fecha_inicio, fecha_fin, repeticiones "
                    + "FROM series_recurrentes WHERE id_serie = ?";
+
         SerieRecurrente serie = null;
+
         try (Connection conn = ConexionBD.getInstancia().getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, (int) claves[0]);
+
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     serie = new SerieRecurrente(
@@ -106,6 +111,7 @@ public class SerieRecurrenteDAO implements GenericDAO<SerieRecurrente> {
                 }
             }
         }
+
         return serie;
     }
 
@@ -114,6 +120,7 @@ public class SerieRecurrenteDAO implements GenericDAO<SerieRecurrente> {
         List<SerieRecurrente> lista = new ArrayList<>();
         String sql = "SELECT id_serie, tipo_recurrencia, fecha_inicio, fecha_fin, repeticiones "
                    + "FROM series_recurrentes ORDER BY id_serie";
+
         try (Connection conn = ConexionBD.getInstancia().getConexion();
              Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
@@ -129,6 +136,7 @@ public class SerieRecurrenteDAO implements GenericDAO<SerieRecurrente> {
                 lista.add(serie);
             }
         }
+
         return lista;
     }
 }

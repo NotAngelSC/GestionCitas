@@ -9,7 +9,7 @@
 
         <!-- Encabezado con título y botones de acción -->
     <top>
-        <HBox spacing="10" padding="10">
+       <HBox spacing="10" style="-fx-padding: 10px;">
             <Label text="Citas" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
             <Region HBox.hgrow="ALWAYS" />
             <Button text="Nueva Cita" onAction="#onNuevaCita" />

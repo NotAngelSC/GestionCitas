@@ -3,7 +3,9 @@ package com.gestioncitas.dao;
 import com.gestioncitas.models.Servicio;
 import com.gestioncitas.util.ConexionBD;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +35,11 @@ public class ServicioDAO implements GenericDAO<Servicio> {
         List<Servicio> lista = new ArrayList<>();
         String sql = "SELECT id_servicio, nombre, duracion_min, precio, descripcion "
                    + "FROM servicios ORDER BY nombre";
+
         try (Connection conn = ConexionBD.getInstancia().getConexion();
              Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
+
             while (rs.next()) {
                 Servicio s = new Servicio(
                     rs.getInt("id_servicio"),
@@ -47,6 +51,8 @@ public class ServicioDAO implements GenericDAO<Servicio> {
                 lista.add(s);
             }
         }
+
         return lista;
     }
 }
+
