@@ -7,7 +7,7 @@
             fx:controller="com.gestioncitas.controllers.CitaController"
             prefWidth="700" prefHeight="450">
 
-    <!-- Encabezado con título y botones de acción -->
+        <!-- Encabezado con título y botones de acción -->
     <top>
         <HBox spacing="10" padding="10">
             <Label text="Citas" style="-fx-font-size: 16px; -fx-font-weight: bold;" />

@@ -6,13 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "JavaFxVersionChecker",
-            "request": "launch",
-            "mainClass": "com.gestioncitas.util.JavaFxVersionChecker",
-            "projectName": "GestionCitas"
-        },
-        {
-            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
