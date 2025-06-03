@@ -8,7 +8,6 @@
             fx:controller="com.gestioncitas.controllers.DashboardController"
             prefWidth="600" prefHeight="400">
 
-    <!-- Encabezado con título y botón de cerrar sesión -->
     <top>
         <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 10px;">
             <Label text="GestionCitas - Dashboard"
@@ -18,7 +17,6 @@
         </HBox>
     </top>
 
-    <!-- Menú lateral con opciones -->
     <left>
         <VBox spacing="10" style="-fx-padding: 10px;">
             <Button fx:id="btnClientes"      text="Gestión de Clientes"   onAction="#onClientes"       prefWidth="150"/>
@@ -29,11 +27,10 @@
         </VBox>
     </left>
 
-    <!-- Contenido central, por defecto vacío o con mensaje de bienvenida -->
     <center>
         <StackPane fx:id="paneContenido" style="-fx-padding: 20px;">
             <Label text="Selecciona una opción del menú."/>
         </StackPane>
     </center>
-
 </BorderPane>
+
